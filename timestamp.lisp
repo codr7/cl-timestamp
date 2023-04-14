@@ -5,11 +5,10 @@
 	   hours
 	   leap-year?
 	   microseconds minutes month month-index
-	   new-timestamp 
+	   new-timestamp now 
 	   seconds
 	   timestamp timestamp= timestamp< timestamp>
-	   year
-	   test))
+	   year))
 
 (in-package timestamp)
 
@@ -85,16 +84,11 @@
       (> (seconds x) (seconds y))
       (> (microseconds x) (microseconds y))))
 
-(defun test ()
-  (let ((x (new-timestamp)))
-    (assert (timestamp= x x)))
+(defun now ()
+  (multiple-value-bind (seconds minutes hours day month year) (decode-universal-time (get-universal-time))
+    (new-timestamp year (get-month month) day hours minutes seconds)))
 
-  (let ((x (new-timestamp 2000 :jan 1))
-	(y (new-timestamp 2000 :jan 2)))
-    (assert (timestamp< x y))
-    (assert (not (timestamp< y x)))
-    (assert (timestamp> y x))
-    (assert (not (timestamp> x y))))
-
-  (assert (= (days-in-month :feb 2000) 28))
-  (assert (= (days-in-month :feb 2016) 29)))
+(defmethod print-object ((val timestamp) out)
+  (format out "~a-~a-~a ~a:~a:~a.~a"
+	  (year val) (month-index (month val)) (day val)
+	  (hours val) (minutes val) (seconds val) (microseconds val)))

@@ -7,4 +7,5 @@
   :licence "MIT"
   :depends-on ("cffi")
   :serial t
-  :components ((:file "timestamp")))
+  :components ((:file "timestamp")
+	       (:file "test")))
