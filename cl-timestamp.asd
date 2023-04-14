@@ -5,7 +5,6 @@
   :author "codr7"
   :description ""
   :licence "MIT"
-  :depends-on ("cffi")
   :serial t
   :components ((:file "timestamp")
 	       (:file "test")))
